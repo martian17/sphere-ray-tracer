@@ -113,7 +113,7 @@ var rayTrace = function(w,h){//just plain old wh resolutions
     for(var y = 0; y < h; y++){
         for(var x = 0; x < h; x++){
             var i = (y*w+x)*4;
-            //not me, the world that moves
+            
             
         }
     }
