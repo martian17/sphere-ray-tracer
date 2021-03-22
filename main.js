@@ -8,7 +8,9 @@ var Field = function(){
     var panels = [];
     var panelNormals = [];
     this.addBall = function(x,y,z,r,color,light){
-        balls.push([x,y,z,r,color,light]);
+        var ball = [x,y,z,r,color,light];
+        balls.push(ball);
+        return ball;
     };
     this.addPanel = function(A,B,C,D,color,light){
         panels.push([A,B,C,D,color,light]);
@@ -174,7 +176,7 @@ var field = new Field();
 var rayTrace = function(){
     var w = width;
     var h = height;
-    var r = (w<h?w:h)*2;
+    var r = (w<h?w:h)*1;
     
     for(var y = 0; y < h; y++){
         for(var x = 0; x < w; x++){
@@ -202,7 +204,7 @@ var rayTrace = function(){
     ctx.putImageData(imgdata,0,0);
 };
 
-var aaa = 0;
+
 
 var getColor = function(a,b,c,d,e,f,depth){
     if(depth > 15){
@@ -226,7 +228,6 @@ var getColor = function(a,b,c,d,e,f,depth){
             if(obj[5]){//5 is for the light
                 return obj[5];
             }
-            aaa++;
             var [a1,b1,c1,d1,e1,f1] = collision[0];
             var color = getColor(a1,b1,c1,d1,e1,f1,depth+1);
             //then finally do the color adjustment
@@ -239,9 +240,17 @@ var getColor = function(a,b,c,d,e,f,depth){
 //field.addBall(0,0,10,3,[1,0.5,0.2],false);
 field.addBall(0,0,11,3,[0.8,0.8,0.8],false);
 field.addBall(10,0,10,3,[0.5,1,0.2],false);
-field.addBall(-6,-3,7,1,[1,0,0],false);
+var ball = field.addBall(-6,-3,7,1,[1,0,0],false);
 field.addBall(0,170,140,210,[0.5,0.2,1],false);
 field.addPanel(0,0,1,13,[0.8,0.8,0.8],false);
 
+var animate = function(t){
+    t = t/1000
+    ball[0] = 5*Math.sin(t);
+    ball[2] = 2*Math.cos(t)+10;
+    rayTrace();
+    requestAnimationFrame(animate);
+}
+
+requestAnimationFrame(animate);
 rayTrace();
-console.log(aaa);
